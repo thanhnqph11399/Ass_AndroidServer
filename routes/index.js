@@ -46,6 +46,8 @@ var upload = multer({
 });
 
 /* GET home page. */
+
+
 router.get('/', function(req, res, next) {
   res.render('index');
 });
@@ -68,6 +70,29 @@ router.get('/home', function(req, res, next) {
         } else {
           res.render('home', {title: 'Express', users: users})
         }
+      })
+});
+
+let baseJson = {
+  errorCode: undefined,
+  errorMessage: undefined,
+  data: undefined
+}
+
+router.get('/getUsers', function(req, res, next) {
+  var connectUsers = db.model('users', user);
+  connectUsers.find({},
+      function (error, users) {
+        if(error){
+          baseJson.errorCode = 400
+          baseJson.errorMessage = error
+          baseJson.data = []
+        }else{
+          baseJson.errorCode = 200
+          baseJson.errorMessage = 'thanh cong'
+          baseJson.data = users
+        }
+        res.send(baseJson);
       })
 });
 
@@ -131,5 +156,4 @@ router.post('/:id',upload.single('avatar'),function (req,res){
     }
   })
 })
-
 module.exports = router;
