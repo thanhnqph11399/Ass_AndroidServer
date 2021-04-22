@@ -120,8 +120,10 @@ router.post('/insertUser',upload.single('avatar'),function (req,res){
   }).save(function (error){
     if(error){
       res.render('home', { title: 'Express Loi' });
+        res.json({errorMessage:"Thêm không thành công",errorCode:400})
     }else{
       res.redirect('home');
+      res.json({errorMessage:"Thêm thành công",errorCode:200})
     }
   })
 })
@@ -151,8 +153,10 @@ router.post('/:id',upload.single('avatar'),function (req,res){
   var run = connectUsers.findByIdAndRemove(req.params.id,null,function (error){
     if(error){
       res.render('home', { title: 'Express Loi' });
+        res.json({errorMessage:"Xóa không thành công",errorCode:400})
     }else{
       res.redirect('home');
+      res.json({errorMessage:"Xóa thành công",errorCode:200})
     }
   })
 })
